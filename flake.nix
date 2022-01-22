@@ -1,12 +1,24 @@
 {
   description = "Data Science End-to-End Project";
 
-  inputs.flake-utils.url = "github:numtide/flake-utils";
+  inputs.utils = {
+    url = "github:numtide/flake-utils";
+    inputs.nixpkgs.follows = "nixpkgs";
+  };
 
-  outputs = { self, nixpkgs, flake-utils }:
-    flake-utils.lib.eachDefaultSystem (system:
+  inputs.mach-nix.url = "github:DavHau/mach-nix";
+
+  outputs = { self, nixpkgs, utils, mach-nix }:
+    utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
+
+        pyenv = mach-nix.lib."${system}".mkPython {
+          requirements = (builtins.readFile ./landing/requirements.txt) + ''
+            python-lsp-server
+            pygments
+          '';
+        };
 
         latex-packages = with pkgs; [
           (texlive.combine {
@@ -38,7 +50,6 @@
               ;
           })
           which
-          python39Packages.pygments
         ];
 
         dev-packages = with pkgs; [
@@ -49,10 +60,10 @@
       in
       {
         devShell = pkgs.mkShell {
-          buildInputs = [ latex-packages dev-packages ];
+          buildInputs = [ latex-packages dev-packages pyenv ];
         };
         
-        packages = flake-utils.lib.flattenTree {
+        packages = utils.lib.flattenTree {
           report = with import nixpkgs { inherit system; }; stdenvNoCC.mkDerivation rec {
             name = "report.pdf";
             src = ./document;
