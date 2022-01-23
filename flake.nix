@@ -14,7 +14,7 @@
         pkgs = nixpkgs.legacyPackages.${system};
 
         pyenv = mach-nix.lib."${system}".mkPython {
-          requirements = (builtins.readFile ./landing/requirements.txt) + ''
+          requirements = (builtins.readFile ./requirements.txt) + ''
             python-lsp-server
             pygments
           '';
