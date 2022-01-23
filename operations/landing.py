@@ -49,11 +49,10 @@ def landing_file(file_path):
     out_dir = os.path.join(extract_dir, f"{filename}-{sha256}-{ingestion_timestamp}")
     os.makedirs(out_dir, exist_ok = True)
 
-    print(out_dir)
-
     if os.path.isdir(file_path):
         return None
-    elif file_path[:-4] == ".zip":
+    elif file_path[-4:] == ".zip":
+        print("EXTRACTING", file_path)
         with ZipFile(file_path, 'r') as zipObj:
             zipObj.extractall(out_dir)
     elif os.path.isfile(file_path):
@@ -134,6 +133,7 @@ def main():
             else:
                 print("WARNING: not a file or diretory:", arg, "(IGNORED)")
 
+    print(file_list)
     import_with_global_meta(file_list)
 
 if __name__ == '__main__':
