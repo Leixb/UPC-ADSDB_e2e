@@ -1,0 +1,2 @@
+"Code" VARCHAR(3) PRIMARY KEY,
+"Name" VARCHAR(100)
