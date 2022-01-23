@@ -70,6 +70,7 @@
 
             buildInputs = [
               latex-packages
+              pkgs.python39Packages.pygments
             ];
 
             TEXMFHOME="./cache";

@@ -7,7 +7,7 @@
 \begin{landscape}
 \section{Data Management backbone}
 \begin{figure}[H]
-    \includegraphics[width=\linewidth]{document/figures/data-management-backbone.jpg}
+    \includegraphics[width=\linewidth]{data-management-backbone}
     \caption{data-management-backbone}
 \end{figure}
 \end{landscape}
@@ -19,8 +19,7 @@ From there, using Python, we unzip the data and store the contents in the persis
 For version managing, we add a checksum hash identifier alongside the timestamp from the ingestion in the folder name, following format: "<filename>-<sha256>-<ingestion\_timestamp>". This guarantees that there
 are no collisions between different imports from the same source.
 
-%\begin{minted}{javascript}
-\begin{verbatim}
+\begin{minted}{javascript}
    {
      "contents": [
        "DEM_DATA_NATIONAL.csv",
@@ -37,7 +36,7 @@ are no collisions between different imports from the same source.
      "sha256": "070d666ac7d9d3c6c59b4905983e29768b02b9b9b684be97bc74afa1a41e42dd",
      "source": "../../../temporal/DEM.zip"
    }
-\end{verbatim}
+\end{minted}
 
 For each folder (which corresponds to an original data source file, we add a \texttt{metadata.json} file
 which holds information on the data source from which the files in the folder were gathered.
@@ -54,19 +53,19 @@ and a file that tells for each source which of these schemas has to be applied.
 For example, for table \texttt{CountryCodes} we have a file named \texttt{CountryCodes} in our
 \texttt{sql\_spec} folder which contains the information on the columns:
 
-\begin{verbatim}
+\begin{minted}{sql}
 "Country" integer PRIMARY KEY,
 "Name" VARCHAR(50)
-\end{verbatim}
+\end{minted}
 
 And in \texttt{landing/spec\_tables.json} we have:
-\begin{verbatim}
+\begin{minted}{javascript}
 ...
 "country_codes": {
   "spec": "CountryCodes"
 },
 ...
-\end{verbatim}
+\end{minted}
 
 This tells us that when ingesting files named \texttt{country\_codes}, the table should be processed
 according to \texttt{CountryCodes}.
