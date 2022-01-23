@@ -33,9 +33,13 @@ def main():
         
         new_table = f"trusted.{k}"
 
+        print("Populating table:", new_table, "...")
+
+        cur.execute(f"DROP TABLE {new_table} CASCADE;")
+
         # Load all the newest data into new table
         cur.execute(f'''
-        CREATE TABLE  IF NOT EXISTS {new_table} AS 
+        CREATE TABLE IF NOT EXISTS {new_table} AS 
             TABLE {table_name(k, v[0])};
         ''')
     conn.commit()

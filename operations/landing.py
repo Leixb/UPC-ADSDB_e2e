@@ -87,6 +87,8 @@ def landing_zip(file_path):
     with open(os.path.join(out_dir, "metadata.json"), 'w') as outfile:
         json.dump(metadata, outfile, indent=2, sort_keys=True)
 
+    os.rmdir(file_path)
+
     return metadata
 
 
