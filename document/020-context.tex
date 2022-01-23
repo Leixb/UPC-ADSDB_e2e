@@ -10,15 +10,17 @@
 \subsection{World Health Organization Data}
 % https://www.who.int/data/mortality/country-profile
 
-The WHO Mortality Database comprises deaths registered in national vital registration systems, with the underlying reason for death as coded by the relevant national authority. The underlying explanation for death is defined as “the disease or injury which initiated the train of morbid events leading on to death, or the circumstances of the accident or violence which produced the fatal injury” in accordance with the foundations of the International Classification of Diseases.
+The WHO Mortality Database \cite{who} comprises deaths registered in national health registration systems, with the underlying reason for death as coded by the relevant national authority. The underlying explanation for death is defined as “the disease or injury which initiated the train of morbid events leading on to death, or the circumstances of the accident or violence which produced the fatal injury” in accordance with the foundations of the International Classification of Diseases.
 
-The database contains number of deaths by country, year, sex, age group and cause of death as far back from 1950. Data are included only for countries reporting data properly coded according to the International Classification of Diseases (ICD).
+The database contains number of deaths by country (stored as ID), year, sex, age group and cause of death as far back from 1980. Data are included only for countries reporting data properly coded according to the International Classification of Diseases (ICD).
+
+Additional files are provided, like a Country data source that contains the country IDs with their respective names.
 
 
 \subsection{Demographic Data}
 % http://data.uis.unesco.org/Index.aspx?DataSetCode=demo_ds#
 
-The database contains data from 1970 to 2019. The data included for countries are Demographic indicators such as:
+This database provided by UNESCO \cite{unesco}, contains socio-economic and demografic indicators for countries from 1970 to 2019, such as:
 
 \begin{itemize}
     \item Fertility rate, total (births per woman)
@@ -27,16 +29,9 @@ The database contains data from 1970 to 2019. The data included for countries ar
     \item Population aged in groups (<14 to 14), (15 to 24), (25 to 64) and (\geq 65) (thousands)
     \item Population growth (annual \%)
     \item Prevalence of HIV, total (\% of population ages 15-49)
-    \item Rural population (\% of total population)
-    \item Poverty headcount ratio at \$3.20 a day (PPP) (\% of population)
-    \item General government total expenditure (current LCU)
-    \item Total debt service (\% of GNI)
-    \item Total population (thousands)
-    \item Official exchange rate (LCU per US\$, period average)
-    \item DEC alternative conversion factor (LCU per US\$)
-    \item Gross Domestic Product (GDP) measures
-    \item Gross National Income (GNI) measures
-    \item Purchasing Power Parity (PPP) measures
 \end{itemize}
 
-With these two data sets, we can identify which demographic and socio-economic indicators increase or decrease different deaths causes per country, see which countries share those characteristics. Additionally, we can predict the number of deaths given those features.
+Moreover, there are supplementary tables that story the country names and the abbreviated codes and another that contains a set of identifiers and the demographic variables meaning.
+
+\subsection{Problem definition}
+With these data sets, we could do things like identity which demographic and socio-economic indicators increase or decrease different deaths causes per country, see which countries share those characteristics. In this project, we will focus on predicting the total number of deaths per capita for a country given its sociodemographic characteristics.

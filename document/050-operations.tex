@@ -14,3 +14,64 @@
 % it.
 
 \section{Operations}
+
+For operations, we generated scripts from the notebooks and added them into a GitHub repository.
+Some improvements were made in the scripts: We grouped the functionality into different functions
+and made the scripts callable.
+
+Each of the scripts should be called one by one in the order shown (the script \texttt{run\_all.sh} runs
+all the tasks in sequence):
+
+\begin{enumerate}
+    \item Downloading script (\texttt{download.sh})
+    \item Landing Zone (\texttt{landing.py})
+    \item Formatted Zone (\texttt{formatted.py})
+    \item Trusted Zone (\texttt{trusted.py})
+    \item Exploitation Zone (\texttt{exploitation.py})
+    \item Modelling (\texttt{modelling.py})
+\end{enumerate}
+
+\paragraph{download.sh} Bash script that automatically downloads the required data sources from the WHO and UNESCO webpages.
+
+\paragraph{landing.py} looks at all the files in the temporal landing zone and adds them to the
+persistent zone with the corresponding metadata. It does not remove the files from the temporal
+landing zone, so multiple reruns of the script will result in various folders with the same contents
+but different timestamp in the persistent landing zone. Additionally, we can provide a list of folders
+or files to ingest as arguments to the script instead of using the default path.
+
+\paragraph{formatted.py} looks at all the tables from the persistent zone and their metadata. If
+there is not a table in the database with the same source checksum and timestamp, it imports the
+data following the steps described in the data management section.
+
+\paragraph{trusted.py} looks at all the tables in the formatted schema of the database that have the same
+Table model but different sources and merges the sources, taking the information from the newest.
+
+\paragraph{exploitation.py} For exploitation, we perform joins on the different tables from the trusted
+zone and generate a table suited for our modelling workflow.
+
+\paragraph{modelling.py} Takes the table from the exploitation zone and trains a model using a regression
+tree. The resulting trained model is saved in a \texttt{.joblib} file, which can be used to run 
+the model with new data.
+
+\section{Conclusions}
+
+We managed to get a minimal viable product that performs the basic tasks needed in a DataOps workflow
+using mostly python and PostgreSQL. The codebase is simple and rather small, which means that it can be adapted to work in other use cases with little tweaks,
+but implementing more complex functionality may require a big refactor of the codebase.
+
+One of the problems of this approach is that the setup environment is very limited to replicate because, as there are no connections to the database from Google Drive, it is difficult to have a centralized database for all the users.
+
+As it is, the code is probably not maintainable in the long run, and a better approach would have been to use
+already built frameworks such as spark or databases more suited to storing dataframes.
+
+We have super-linter set up in the github-actions from the repository, ensuring that all
+the commits adhere to good coding practices,
+nevertheless, unit testing and in general a proper continuous integration workflow should be added.
+We used nix flakes and \texttt{mach-nix}\cite{davhau_mach-nix_2022} in order to manage the python environment. The nix language guarantees the build reproducibility of programs.
+\cite{noauthor_nix_nodate,dolstra_purely_2006,noauthor_nixos_nodate,noauthor_nix_2021}.
+Using this and \texttt{direnv} \cite{noauthor_direnv_nodate} we get a reproducible isolated development environment which should be the same for every developer.
+We could integrate
+with GitHub actions and Cachix to build and deploy our model, but sadly, since this relies on a local Postgres database, and we had limited time we did not get the model to run in GitHub actions.
+
+In hindsight, we should have invested more time in the planning before getting to prototyping, as we lost
+a lot of time trying approaches that did not work.
