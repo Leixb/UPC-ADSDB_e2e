@@ -1,0 +1,5 @@
+CREATE DATABASE adsdb
+    WITH 
+    OWNER = adsdb
+    ENCODING = 'UTF8'
+    CONNECTION LIMIT = -1;
