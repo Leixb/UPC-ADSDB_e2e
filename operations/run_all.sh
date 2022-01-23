@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 TEMPORAL_FOLDER=${1:-landing/temporal}
 
 mkdir -p "$TEMPORAL_FOLDER"
